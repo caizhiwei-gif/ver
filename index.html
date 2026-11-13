@@ -1,722 +1,661 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Network - Protect Earth</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>拾光随笔 | 极简个人博客</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts: Noto Sans SC & Noto Serif SC 提升中文阅读体验 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind 自定义配置：支持 class 切换暗黑模式与字体 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        serif: ['"Noto Serif SC"', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        paper: {
+                            light: '#F9F9F8',
+                            cardLight: '#FFFFFF',
+                            textLight: '#2C2C2C',
+                            mutedLight: '#6B7280',
+                            borderLight: '#EAEAE8',
+                            dark: '#161718',
+                            cardDark: '#1F2022',
+                            textDark: '#E5E5E3',
+                            mutedDark: '#9CA3AF',
+                            borderDark: '#2E3033',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* 平滑滚动与自定义细节样式 */
+        html {
+            scroll-behavior: smooth;
         }
-
-        :root {
-            --primary: #2e7d32;
-            --secondary: #4caf50;
-            --accent: #8bc34a;
-            --light: #e8f5e9;
-            --dark: #1b5e20;
-            --text: #333333;
-            --white: #ffffff;
-        }
-
         body {
-            background-color: var(--light);
-            color: var(--text);
-            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* 文章正文排版优化 */
+        .article-prose p {
+            margin-bottom: 1.4em;
+            line-height: 1.85;
+            font-size: 1.05rem;
         }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
+        .article-prose h3 {
+            font-size: 1.35rem;
             font-weight: 700;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
         }
-
-        .logo i {
-            font-size: 2rem;
+        .article-prose blockquote {
+            border-left: 3px solid #9CA3AF;
+            padding-left: 1rem;
+            font-style: italic;
+            margin: 1.5rem 0;
+            opacity: 0.85;
         }
-
-        nav ul {
-            display: flex;
-            list-style: none;
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        nav ul li {
-            margin-left: 2rem;
-        }
-
-        nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent);
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--white);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--accent);
-            border-radius: 2px;
-        }
-
-        .section-title p {
-            color: var(--text);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-img {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .about-img:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem 1rem;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-10px);
-        }
-
-        .stat-item i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
-            color: var(--text);
-        }
-
-        .initiatives {
-            background-color: var(--white);
-        }
-
-        .initiatives-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .initiative-card {
-            background-color: var(--light);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .initiative-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .initiative-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .initiative-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .initiative-card:hover .initiative-img img {
-            transform: scale(1.1);
-        }
-
-        .initiative-content {
-            padding: 1.5rem;
-        }
-
-        .initiative-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .initiative-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .cta {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            text-align: center;
-            padding: 5rem 0;
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta .btn {
-            background-color: var(--white);
-            color: var(--primary);
-        }
-
-        .cta .btn:hover {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--accent);
-        }
-
-        .footer-column p {
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links li a {
-            color: var(--light);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-links li a:hover {
-            color: var(--accent);
-            padding-left: 5px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--white);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-menu {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 992px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .initiatives-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--primary);
-                flex-direction: column;
-                padding: 1rem 0;
-                text-align: center;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            nav ul.active {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                padding: 0.8rem 0;
-            }
-            
-            .mobile-menu {
-                display: block;
-            }
-            
-            .initiatives-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation for stats counter */
-        .counter {
-            transition: all 0.5s ease;
+        .animate-fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fas fa-seedling"></i>
-                <span>Green Network</span>
+<body class="bg-paper-light text-paper-textLight dark:bg-paper-dark dark:text-paper-textDark font-sans antialiased min-h-screen flex flex-col selection:bg-stone-200 dark:selection:bg-stone-700">
+
+    <!-- ==================== 1. 顶部导航栏 ==================== -->
+    <header class="sticky top-0 z-30 backdrop-blur-md bg-paper-light/85 dark:bg-paper-dark/85 border-b border-paper-borderLight dark:border-paper-borderDark transition-colors">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+            <!-- 左侧：博客标题与副标题 -->
+            <div class="flex items-baseline gap-3 cursor-pointer" onclick="switchNav('home')">
+                <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-tight hover:opacity-80 transition-opacity">
+                    拾光随笔
+                </h1>
+                <span class="hidden sm:inline-block text-xs sm:text-sm text-paper-mutedLight dark:text-paper-mutedDark">
+                    记录代码、阅读与生活里的微光
+                </span>
             </div>
-            <nav>
-                <div class="mobile-menu">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#initiatives">Initiatives</a></li>
-                    <li><a href="#get-involved">Get Involved</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+
+            <!-- 右侧：导航链接与主题切换按钮 -->
+            <div class="flex items-center gap-2 sm:gap-6">
+                <nav class="flex items-center gap-1 sm:gap-5 text-sm font-medium">
+                    <button onclick="switchNav('home')" id="nav-home" class="nav-link px-2.5 py-1.5 rounded-lg text-paper-textLight dark:text-paper-textDark font-semibold transition-colors">
+                        首页
+                    </button>
+                    <button onclick="switchNav('archive')" id="nav-archive" class="nav-link px-2.5 py-1.5 rounded-lg text-paper-mutedLight dark:text-paper-mutedDark hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">
+                        文章归档
+                    </button>
+                    <button onclick="switchNav('about')" id="nav-about" class="nav-link px-2.5 py-1.5 rounded-lg text-paper-mutedLight dark:text-paper-mutedDark hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">
+                        关于我
+                    </button>
+                </nav>
+
+                <!-- 分隔线 -->
+                <div class="h-4 w-px bg-paper-borderLight dark:bg-paper-borderDark"></div>
+
+                <!-- 深色/浅色模式切换按钮 -->
+                <button id="theme-toggle" aria-label="切换深色或浅色模式" class="p-2 rounded-xl border border-paper-borderLight dark:border-paper-borderDark bg-paper-cardLight dark:bg-paper-cardDark hover:bg-stone-100 dark:hover:bg-stone-800 transition-all shadow-sm">
+                    <!-- 太阳图标 (暗黑模式下显示) -->
+                    <svg id="icon-sun" class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <!-- 月亮图标 (浅色模式下显示) -->
+                    <svg id="icon-moon" class="w-4 h-4 block dark:hidden text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>Protect Our Planet, Preserve Our Future</h1>
-            <p>Join the global movement to create a sustainable world through conservation, education, and community action.</p>
-            <a href="#get-involved" class="btn">Join Our Network</a>
-        </div>
-    </section>
+    <!-- ==================== 2. 主体内容区 (双栏布局) ==================== -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+            
+            <!-- 左侧主区域：桌面端 70% 宽度 (w-full lg:w-[70%]) -->
+            <section class="w-full lg:w-[70%]" id="main-content-area">
+                
+                <!-- 过滤状态提示栏 (当选择特定分类或标签时显示) -->
+                <div id="filter-banner" class="hidden mb-6 px-4 py-3 rounded-xl bg-paper-cardLight dark:bg-paper-cardDark border border-paper-borderLight dark:border-paper-borderDark flex items-center justify-between text-sm animate-fade-in">
+                    <div>
+                        <span class="text-paper-mutedLight dark:text-paper-mutedDark">当前筛选：</span>
+                        <span id="filter-label" class="font-semibold"></span>
+                    </div>
+                    <button onclick="resetFilter()" class="text-xs px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+                        清除筛选 ✕
+                    </button>
+                </div>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Green Network</h2>
-                <p>We are a global community dedicated to environmental protection and sustainable development.</p>
-            </div>
-            <div class="about-content">
-                <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Team planting trees">
+                <!-- 视图 A：博客文章列表视图 -->
+                <div id="view-list" class="space-y-6">
+                    <!-- 文章卡片由 JS 动态渲染在此处 -->
                 </div>
-                <div class="about-text">
-                    <h3>Our Mission</h3>
-                    <p>Green Network is committed to creating a sustainable future by protecting natural ecosystems, promoting renewable energy, and empowering communities to take environmental action.</p>
-                    <p>Founded in 2010, we've grown from a small grassroots organization to an international network with over 50,000 members across 120 countries.</p>
-                    <p>Our approach combines scientific research, community engagement, and policy advocacy to address the most pressing environmental challenges of our time.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <i class="fas fa-tree"></i>
-                    <h3 class="counter" data-target="2500000">0</h3>
-                    <p>Trees Planted</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-users"></i>
-                    <h3 class="counter" data-target="50000">0</h3>
-                    <p>Active Members</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-globe-americas"></i>
-                    <h3 class="counter" data-target="120">0</h3>
-                    <p>Countries Reached</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-recycle"></i>
-                    <h3 class="counter" data-target="1500">0</h3>
-                    <p>Cleanup Projects</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Initiatives Section -->
-    <section class="initiatives" id="initiatives">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Initiatives</h2>
-                <p>Discover the key programs and projects we're implementing to protect our planet.</p>
-            </div>
-            <div class="initiatives-grid">
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://dialogue.earth/content/uploads/2021/04/lessons-from-the-rush-to-reforest-china-dialogue-2400x1599.jpg" alt="Reforestation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Global Reforestation</h3>
-                        <p>Planting millions of trees worldwide to restore ecosystems, combat climate change, and protect biodiversity.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Ocean Conservation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Ocean Conservation</h3>
-                        <p>Protecting marine ecosystems, reducing plastic pollution, and promoting sustainable fishing practices.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Renewable Energy">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Renewable Energy</h3>
-                        <p>Promoting solar, wind, and other clean energy sources to reduce dependence on fossil fuels.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <!-- 视图 B：单篇文章完整阅读视图 (默认隐藏) -->
+                <article id="view-detail" class="hidden bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 sm:p-10 border border-paper-borderLight dark:border-paper-borderDark shadow-sm animate-fade-in">
+                    <!-- 顶部返回按钮 -->
+                    <button onclick="backToList()" class="inline-flex items-center gap-1.5 text-sm text-paper-mutedLight dark:text-paper-mutedDark hover:text-paper-textLight dark:hover:text-paper-textDark mb-6 group transition-colors">
+                        <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        返回文章列表
+                    </button>
 
-    <!-- CTA Section -->
-    <section class="cta" id="get-involved">
-        <div class="container">
-            <h2>Join Our Global Movement</h2>
-            <p>Together, we can create a sustainable future for generations to come. Every action counts, no matter how small.</p>
-            <a href="#" class="btn">Become a Member</a>
-        </div>
-    </section>
+                    <!-- 文章头部元信息 -->
+                    <div class="mb-8 pb-6 border-b border-paper-borderLight dark:border-paper-borderDark">
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-paper-mutedLight dark:text-paper-mutedDark mb-3">
+                            <span id="detail-category" class="px-2.5 py-1 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-medium"></span>
+                            <time id="detail-date"></time>
+                            <span>·</span>
+                            <span id="detail-readtime"></span>
+                        </div>
+                        <h2 id="detail-title" class="font-serif text-2xl sm:text-3xl font-bold leading-snug tracking-tight"></h2>
+                    </div>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Green Network</h3>
-                    <p>We are dedicated to protecting our planet through collaborative action, education, and sustainable solutions.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- 文章完整正文 -->
+                    <div id="detail-body" class="article-prose text-paper-textLight/90 dark:text-paper-textDark/90"></div>
+
+                    <!-- 文章底部标签与返回 -->
+                    <div class="mt-10 pt-6 border-t border-paper-borderLight dark:border-paper-borderDark flex flex-wrap items-center justify-between gap-4">
+                        <div id="detail-tags" class="flex flex-wrap gap-2"></div>
+                        <button onclick="backToList()" class="text-sm font-medium px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+                            阅读其他文章
+                        </button>
+                    </div>
+                </article>
+
+                <!-- 视图 C：文章归档视图 (点击导航“文章归档”时切换) -->
+                <div id="view-archive" class="hidden bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 sm:p-8 border border-paper-borderLight dark:border-paper-borderDark shadow-sm animate-fade-in">
+                    <h2 class="font-serif text-xl sm:text-2xl font-bold mb-6 pb-4 border-b border-paper-borderLight dark:border-paper-borderDark">
+                        文章归档 <span class="text-sm font-normal text-paper-mutedLight dark:text-paper-mutedDark ml-2" id="archive-count"></span>
+                    </h2>
+                    <div id="archive-list" class="space-y-4">
+                        <!-- 归档列表由 JS 生成 -->
                     </div>
                 </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#initiatives">Initiatives</a></li>
-                        <li><a href="#get-involved">Get Involved</a></li>
-                        <li><a href="#contact">Contact</a></li>
+
+                <!-- 视图 D：关于我视图 (点击导航“关于我”时切换) -->
+                <div id="view-about" class="hidden bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 sm:p-10 border border-paper-borderLight dark:border-paper-borderDark shadow-sm animate-fade-in">
+                    <h2 class="font-serif text-2xl font-bold mb-6">关于我 & 本站</h2>
+                    <div class="article-prose text-paper-textLight/90 dark:text-paper-textDark/90">
+                        <p>你好，我是<strong>林默</strong>，一名喜欢在数字世界里搭建简洁角落的前端开发者与文字记录者。</p>
+                        <p>创建「拾光随笔」的初衷很简单：在信息流愈发碎片化、算法不断推送噪音的今天，保留一块纯粹属于自己的静谧自留地。这里没有弹窗广告，没有复杂的社交指标，只有慢下来思考后留下的文字。</p>
+                        <h3>我会在这里写些什么？</h3>
+                        <p>• <strong>技术笔记</strong>：前端架构、极简设计原则以及日常开发中的踩坑与重构思考。<br>
+                        • <strong>生活随笔</strong>：周末的城市漫步、手冲咖啡实验，以及普通人日常里的微小确幸。<br>
+                        • <strong>阅读思考</strong>：书页间的摘录与跨学科阅读带来的灵感碰撞。</p>
+                        <blockquote>“把时间浪费在美好的事物上，把思绪安放在干净的文字里。”</blockquote>
+                        <p>如果你对某篇文章有所共鸣，欢迎通过页脚的社交链接与我交流。</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 右侧边栏：桌面端 30% 宽度 (w-full lg:w-[30%]) -->
+            <aside class="w-full lg:w-[30%] space-y-6 lg:sticky lg:top-28">
+                
+                <!-- 卡片 1：博主简介 -->
+                <div class="bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 border border-paper-borderLight dark:border-paper-borderDark shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <!-- 头像占位符 (使用优雅的 SVG 极简插画头像) -->
+                        <div class="w-14 h-14 rounded-full bg-stone-100 dark:bg-stone-800 border border-paper-borderLight dark:border-paper-borderDark flex items-center justify-center shrink-0 overflow-hidden">
+                            <svg class="w-8 h-8 text-stone-500 dark:text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">林默 · LinMo</h3>
+                            <p class="text-xs text-paper-mutedLight dark:text-paper-mutedDark mt-0.5">独立开发者 / 慢生活观察者</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-paper-mutedLight dark:text-paper-mutedDark leading-relaxed">
+                        热衷于极简主义设计与克制的交互体验。闲暇时喜欢阅读非虚构文学、胶片摄影与手冲咖啡。
+                    </p>
+                    <div class="mt-4 pt-4 border-t border-paper-borderLight dark:border-paper-borderDark flex justify-around text-center">
+                        <div>
+                            <div class="font-bold text-sm" id="stat-posts">4</div>
+                            <div class="text-xs text-paper-mutedLight dark:text-paper-mutedDark">文章</div>
+                        </div>
+                        <div class="w-px bg-paper-borderLight dark:bg-paper-borderDark"></div>
+                        <div>
+                            <div class="font-bold text-sm">3</div>
+                            <div class="text-xs text-paper-mutedLight dark:text-paper-mutedDark">分类</div>
+                        </div>
+                        <div class="w-px bg-paper-borderLight dark:bg-paper-borderDark"></div>
+                        <div>
+                            <div class="font-bold text-sm">2026</div>
+                            <div class="text-xs text-paper-mutedLight dark:text-paper-mutedDark">始于</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 2：文章分类筛选 -->
+                <div class="bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 border border-paper-borderLight dark:border-paper-borderDark shadow-sm">
+                    <h3 class="font-serif font-bold text-base mb-4 flex items-center justify-between">
+                        <span>文章分类</span>
+                        <span class="text-xs font-sans font-normal text-paper-mutedLight dark:text-paper-mutedDark">点击筛选</span>
+                    </h3>
+                    <ul id="category-list" class="space-y-1.5 text-sm">
+                        <!-- 分类列表由 JS 动态生成 -->
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3>Our Programs</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Reforestation</a></li>
-                        <li><a href="#">Ocean Cleanup</a></li>
-                        <li><a href="#">Wildlife Protection</a></li>
-                        <li><a href="#">Climate Education</a></li>
-                        <li><a href="#">Sustainable Agriculture</a></li>
-                    </ul>
+
+                <!-- 卡片 3：热门标签云 -->
+                <div class="bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 border border-paper-borderLight dark:border-paper-borderDark shadow-sm">
+                    <h3 class="font-serif font-bold text-base mb-4">热门标签</h3>
+                    <div id="tag-cloud" class="flex flex-wrap gap-2">
+                        <!-- 标签云由 JS 动态生成 -->
+                    </div>
                 </div>
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Copper Creek Drive, New York</p>
-                    <p><i class="fas fa-phone"></i> +1 (312) 171-0771</p>
-                    <p><i class="fas fa-envelope"></i> support@greennetwork.org</p>
-                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- ==================== 3. 底部页脚 ==================== -->
+    <footer class="border-t border-paper-borderLight dark:border-paper-borderDark mt-12 py-8 bg-paper-cardLight/50 dark:bg-paper-cardDark/30">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-paper-mutedLight dark:text-paper-mutedDark">
+            <div>
+                © 2026 拾光随笔 · 保持热爱，奔赴山海
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Green Network. All rights reserved.</p>
+            <!-- 简洁社交链接占位 -->
+            <div class="flex items-center gap-5">
+                <a href="javascript:void(0)" onclick="showToast('GitHub 主页链接占位：github.com/username')" class="hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">GitHub</a>
+                <a href="javascript:void(0)" onclick="showToast('X / Twitter 链接占位：x.com/username')" class="hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">Twitter</a>
+                <a href="javascript:void(0)" onclick="showToast('RSS 订阅地址已准备就绪')" class="hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">RSS</a>
+                <a href="mailto:hello@example.com" class="hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">Email</a>
             </div>
         </div>
     </footer>
 
+    <!-- 轻量级提示 Toast (替代 alert) -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-xl bg-stone-800 dark:bg-stone-200 text-white dark:text-stone-900 text-xs sm:text-sm shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
+    </div>
+
+    <!-- ==================== 4. 博客数据与交互脚本 ==================== -->
     <script>
-        // Mobile Menu Toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('nav ul').classList.toggle('active');
+        /**
+         * 博客文章数据源
+         * 你可以直接在下方数组中修改、新增或删除文章内容
+         */
+        const blogPosts = [
+            {
+                id: 1,
+                title: "极简主义网页设计：如何在留白中传递信息温度",
+                date: "2026-11-08",
+                category: "技术笔记",
+                readTime: "4 分钟阅读",
+                tags: ["极简设计", "前端开发", "排版美学"],
+                summary: "在视觉元素泛滥的互联网时代，真正打动人心的往往不是炫目的动效，而是克制的色彩、恰到好处的行距与呼吸感十足的留白。",
+                content: `
+                    <p>当我们打开一个网页时，眼睛在最初的 3 秒内决定了是否愿意继续停留。极简主义（Minimalism）并非单纯的“什么都不放”，而是剔除一切干扰核心内容的视觉噪音。</p>
+                    <h3>1. 留白是呼吸的节奏</h3>
+                    <p>在平面设计与现代网页排版中，留白（Whitespace）是最昂贵也最有效的设计元素。适当的段间距与卡片内边距，能让长文阅读变得轻松自然，减少视觉疲劳。</p>
+                    <h3>2. 克制的色彩体系</h3>
+                    <p>使用接近纸张质感的浅米白（#F9F9F8）作为底色，搭配高对比度但不刺眼的深灰文字（#2C2C2C），能够模拟实体书的温润触感。相比纯黑与纯白的强对比，这种微调对长时间阅读者更加友好。</p>
+                    <blockquote>“完美不是无以复加，而是无可删减。” —— 圣埃克苏佩里</blockquote>
+                    <p>下一次构建个人项目时，不妨试着先做减法，让文字本身成为页面的主角。</p>
+                `
+            },
+            {
+                id: 2,
+                title: "秋日午后的手冲咖啡实验与慢生活札记",
+                date: "2026-10-25",
+                category: "生活随笔",
+                readTime: "3 分钟阅读",
+                tags: ["手冲咖啡", "生活日常", "秋日随想"],
+                summary: "周六下午的阳光斜斜地洒在书桌上，用 92 度的热水唤醒埃塞俄比亚耶加雪菲的柑橘花香，记录一段不被手机打扰的专注时光。",
+                content: `
+                    <p>入秋之后，空气变得清冽而干燥。周末的下午，我习惯把手机调成静音放在客厅，独自在书房里煮一壶手冲咖啡。</p>
+                    <h3>水流与时间的对话</h3>
+                    <p>研磨度调至中细，15 克豆子配合 225 毫升水。注水闷蒸的那 30 秒里，看着咖啡粉缓缓鼓起细腻的气泡，整个房间的节奏仿佛都慢了下来。</p>
+                    <p>很多时候我们感到焦虑，是因为习惯了多线程处理一切任务。而手冲咖啡强迫你在两分半钟内只做一件事：控制水流的速度与高度。</p>
+                    <h3>留给自己的空白时间</h3>
+                    <p>端起温热的陶瓷杯，翻开手边读了一半的散文集，窗外梧桐叶偶尔飘落。这样平凡却完整的午后，大概就是生活最好的馈赠。</p>
+                `
+            },
+            {
+                id: 3,
+                title: "重读《纳瓦尔宝典》：关于专注、复利与长期主义",
+                date: "2026-10-12",
+                category: "阅读思考",
+                readTime: "5 分钟阅读",
+                tags: ["读书笔记", "个人成长", "长期主义"],
+                summary: "时隔两年再次翻开这本书，对“玩长期游戏”有了更深的体悟。人生中所有的回报，无论是财富、知识还是人际关系，都源自复利。",
+                content: `
+                    <p>好书常读常新。两年前初次阅读《纳瓦尔宝典》时，我更多关注的是方法论层面的金句；而这一次重读，最触动我的是关于“内心平静”与“长期主义”的探讨。</p>
+                    <h3>选择可以产生复利的事情</h3>
+                    <p>无论是坚持写代码、持续输出博客文章，还是深耕某一个专业领域，初期往往看不到明显的反馈。但只要方向正确，时间会成为最忠实的杠杆。</p>
+                    <blockquote>“生活中的所有回报，无论是在财富、人际关系，还是知识方面，都来自复利。”</blockquote>
+                    <h3>保护你的注意力</h3>
+                    <p>现代社会最稀缺的资源不是信息，而是注意力。学会对无关紧要的争论说“不”，把精力倾注在真正能沉淀下来的创造性工作上。</p>
+                `
+            },
+            {
+                id: 4,
+                title: "构建零依赖的轻量级前端组件：回归 Web 本质",
+                date: "2026-09-28",
+                category: "技术笔记",
+                readTime: "6 分钟阅读",
+                tags: ["JavaScript", "前端开发", "性能优化"],
+                summary: "现代前端框架极大提升了复杂应用的开发效率，但在个人博客或展示型站点中，原生 HTML 与现代 CSS 依然拥有无可比拟的轻快体验。",
+                content: `
+                    <p>在过去几年里，前端生态经历了飞速演进。然而当我们只是想搭建一个个人博客或静态展示页时，动辄数百兆的依赖包似乎显得有些过于沉重。</p>
+                    <h3>现代浏览器的原生能力</h3>
+                    <p>如今的浏览器已经原生支持了 CSS 变量、Flexbox 与 Grid 布局、平滑滚动以及完善的 ES6+ 语法。仅用一个单文件 HTML，我们就能实现主题切换、客户端筛选与流畅的视图路由。</p>
+                    <h3>加载速度即体验</h3>
+                    <p>当页面体积控制在几十 KB 以内时，几乎在点击链接的瞬间就能完成首屏渲染。这种“秒开”的轻盈感，正是回归 Web 本质所带来的纯粹快乐。</p>
+                `
+            }
+        ];
+
+        // 全局状态管理
+        let currentCategory = '全部';
+        let currentTag = null;
+
+        /**
+         * 初始化页面
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderSidebar();
+            renderPostList();
+            renderArchive();
         });
 
-        // Counter Animation
-        function animateCounters() {
-            const counters = document.querySelectorAll('.counter');
-            const speed = 200; // The lower the slower
+        /**
+         * 1. 深色/浅色模式切换逻辑
+         */
+        function initTheme() {
+            const htmlEl = document.documentElement;
+            const toggleBtn = document.getElementById('theme-toggle');
             
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                
-                const inc = target / speed;
-                
-                if(count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(animateCounters, 1);
+            // 读取本地存储或系统偏好
+            const savedTheme = localStorage.getItem('blog-theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+                htmlEl.classList.add('dark');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                htmlEl.classList.toggle('dark');
+                const isDark = htmlEl.classList.contains('dark');
+                localStorage.setItem('blog-theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        /**
+         * 2. 渲染文章列表卡片
+         */
+        function renderPostList() {
+            const listContainer = document.getElementById('view-list');
+            const filterBanner = document.getElementById('filter-banner');
+            const filterLabel = document.getElementById('filter-label');
+
+            // 过滤逻辑
+            const filteredPosts = blogPosts.filter(post => {
+                const matchCat = currentCategory === '全部' || post.category === currentCategory;
+                const matchTag = !currentTag || post.tags.includes(currentTag);
+                return matchCat && matchTag;
+            });
+
+            // 更新过滤提示条
+            if (currentCategory !== '全部' || currentTag) {
+                filterBanner.classList.remove('hidden');
+                filterLabel.textContent = currentTag ? `标签 #${currentTag}` : `分类「${currentCategory}」`;
+            } else {
+                filterBanner.classList.add('hidden');
+            }
+
+            // 如果没有匹配的文章
+            if (filteredPosts.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-10 text-center border border-paper-borderLight dark:border-paper-borderDark">
+                        <p class="text-paper-mutedLight dark:text-paper-mutedDark mb-4">该筛选条件下暂无文章</p>
+                        <button onclick="resetFilter()" class="text-sm px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">查看全部文章</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // 生成文章卡片 HTML
+            listContainer.innerHTML = filteredPosts.map(post => `
+                <article class="group bg-paper-cardLight dark:bg-paper-cardDark rounded-2xl p-6 sm:p-8 border border-paper-borderLight dark:border-paper-borderDark shadow-sm hover:shadow-md hover:border-stone-300 dark:hover:border-stone-700 transition-all duration-300 animate-fade-in">
+                    <!-- 顶部元信息：分类标签与发布日期 -->
+                    <div class="flex items-center justify-between gap-2 text-xs text-paper-mutedLight dark:text-paper-mutedDark mb-3">
+                        <div class="flex items-center gap-2.5">
+                            <span onclick="filterByCategory('${post.category}')" class="cursor-pointer px-2.5 py-1 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-medium hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+                                ${post.category}
+                            </span>
+                            <time>${post.date}</time>
+                        </div>
+                        <span>${post.readTime}</span>
+                    </div>
+
+                    <!-- 文章标题 -->
+                    <h2 onclick="openArticle(${post.id})" class="cursor-pointer font-serif text-xl sm:text-2xl font-bold leading-snug mb-3 group-hover:text-stone-600 dark:group-hover:text-stone-300 transition-colors">
+                        ${post.title}
+                    </h2>
+
+                    <!-- 文章摘要 -->
+                    <p class="text-sm sm:text-base text-paper-mutedLight dark:text-paper-mutedDark leading-relaxed mb-5 line-clamp-3">
+                        ${post.summary}
+                    </p>
+
+                    <!-- 底部标签与“阅读全文”按钮 -->
+                    <div class="flex items-center justify-between pt-4 border-t border-paper-borderLight/70 dark:border-paper-borderDark/70">
+                        <div class="flex flex-wrap gap-2">
+                            ${post.tags.map(tag => `
+                                <span onclick="filterByTag('${tag}')" class="cursor-pointer text-xs text-paper-mutedLight dark:text-paper-mutedDark hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">
+                                    #${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+
+                        <button onclick="openArticle(${post.id})" class="inline-flex items-center gap-1 text-sm font-medium text-paper-textLight dark:text-paper-textDark group-hover:translate-x-0.5 transition-transform">
+                            阅读全文
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        /**
+         * 3. 打开单篇文章完整阅读视图
+         */
+        function openArticle(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            // 填充文章详情数据
+            document.getElementById('detail-category').textContent = post.category;
+            document.getElementById('detail-date').textContent = post.date;
+            document.getElementById('detail-readtime').textContent = post.readTime;
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-body').innerHTML = post.content;
+            
+            document.getElementById('detail-tags').innerHTML = post.tags.map(tag => `
+                <span onclick="filterByTag('${tag}')" class="cursor-pointer text-xs px-3 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-paper-mutedLight dark:text-paper-mutedDark hover:text-paper-textLight dark:hover:text-paper-textDark transition-colors">
+                    #${tag}
+                </span>
+            `).join('');
+
+            // 切换视图显示
+            hideAllViews();
+            document.getElementById('view-detail').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * 4. 返回文章列表视图
+         */
+        function backToList() {
+            hideAllViews();
+            document.getElementById('view-list').classList.remove('hidden');
+            if (currentCategory !== '全部' || currentTag) {
+                document.getElementById('filter-banner').classList.remove('hidden');
+            }
+            updateNavHighlight('home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * 5. 渲染侧边栏（分类与标签云）
+         */
+        function renderSidebar() {
+            document.getElementById('stat-posts').textContent = blogPosts.length;
+
+            // 统计分类数量
+            const categoryCounts = { '全部': blogPosts.length };
+            blogPosts.forEach(p => {
+                categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
+            });
+
+            const categoryListEl = document.getElementById('category-list');
+            categoryListEl.innerHTML = Object.entries(categoryCounts).map(([cat, count]) => {
+                const isActive = currentCategory === cat && !currentTag;
+                return `
+                    <li>
+                        <button onclick="filterByCategory('${cat}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl transition-colors ${isActive ? 'bg-stone-100 dark:bg-stone-800 font-semibold text-paper-textLight dark:text-paper-textDark' : 'text-paper-mutedLight dark:text-paper-mutedDark hover:bg-stone-50 dark:hover:bg-stone-800/50'}">
+                            <span>${cat}</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-paper-light dark:bg-paper-dark border border-paper-borderLight dark:border-paper-borderDark">${count}</span>
+                        </button>
+                    </li>
+                `;
+            }).join('');
+
+            // 提取所有不重复标签
+            const allTags = [...new Set(blogPosts.flatMap(p => p.tags))];
+            const tagCloudEl = document.getElementById('tag-cloud');
+            tagCloudEl.innerHTML = allTags.map(tag => {
+                const isActive = currentTag === tag;
+                return `
+                    <button onclick="filterByTag('${tag}')" class="text-xs px-3 py-1.5 rounded-lg border transition-all ${isActive ? 'border-stone-800 dark:border-stone-200 bg-stone-800 dark:bg-stone-200 text-white dark:text-stone-900 font-medium' : 'border-paper-borderLight dark:border-paper-borderDark bg-paper-light dark:bg-paper-dark text-paper-mutedLight dark:text-paper-mutedDark hover:border-stone-400 dark:hover:border-stone-600'}">
+                        #${tag}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        /**
+         * 6. 分类与标签筛选操作
+         */
+        function filterByCategory(category) {
+            currentCategory = category;
+            currentTag = null;
+            switchNav('home');
+            renderSidebar();
+            renderPostList();
+        }
+
+        function filterByTag(tag) {
+            currentTag = (currentTag === tag) ? null : tag;
+            currentCategory = '全部';
+            switchNav('home');
+            renderSidebar();
+            renderPostList();
+        }
+
+        function resetFilter() {
+            currentCategory = '全部';
+            currentTag = null;
+            renderSidebar();
+            renderPostList();
+        }
+
+        /**
+         * 7. 顶部导航切换（首页 / 文章归档 / 关于我）
+         */
+        function switchNav(target) {
+            hideAllViews();
+            updateNavHighlight(target);
+
+            if (target === 'home') {
+                document.getElementById('view-list').classList.remove('hidden');
+                if (currentCategory !== '全部' || currentTag) {
+                    document.getElementById('filter-banner').classList.remove('hidden');
+                }
+            } else if (target === 'archive') {
+                document.getElementById('view-archive').classList.remove('hidden');
+            } else if (target === 'about') {
+                document.getElementById('view-about').classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideAllViews() {
+            document.getElementById('view-list').classList.add('hidden');
+            document.getElementById('view-detail').classList.add('hidden');
+            document.getElementById('view-archive').classList.add('hidden');
+            document.getElementById('view-about').classList.add('hidden');
+            document.getElementById('filter-banner').classList.add('hidden');
+        }
+
+        function updateNavHighlight(activeKey) {
+            ['home', 'archive', 'about'].forEach(key => {
+                const el = document.getElementById(`nav-${key}`);
+                if (key === activeKey) {
+                    el.classList.remove('text-paper-mutedLight', 'dark:text-paper-mutedDark');
+                    el.classList.add('text-paper-textLight', 'dark:text-paper-textDark', 'font-semibold');
                 } else {
-                    counter.innerText = target;
+                    el.classList.add('text-paper-mutedLight', 'dark:text-paper-mutedDark');
+                    el.classList.remove('text-paper-textLight', 'dark:text-paper-textDark', 'font-semibold');
                 }
             });
         }
 
-        // Initialize counters when page loads
-        window.addEventListener('load', animateCounters);
+        /**
+         * 8. 渲染文章归档列表
+         */
+        function renderArchive() {
+            document.getElementById('archive-count').textContent = `共 ${blogPosts.length} 篇`;
+            const archiveEl = document.getElementById('archive-list');
+            archiveEl.innerHTML = blogPosts.map(post => `
+                <div onclick="openArticle(${post.id})" class="cursor-pointer group flex flex-col sm:flex-row sm:items-center justify-between py-3 px-3 -mx-3 rounded-xl hover:bg-stone-100/80 dark:hover:bg-stone-800/60 transition-colors gap-1">
+                    <div class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-stone-400 group-hover:bg-stone-800 dark:group-hover:bg-stone-200 transition-colors"></span>
+                        <span class="font-medium group-hover:underline">${post.title}</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-paper-mutedLight dark:text-paper-mutedDark pl-4 sm:pl-0 shrink-0">
+                        <span class="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800">${post.category}</span>
+                        <time>${post.date}</time>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    document.querySelector('nav ul').classList.remove('active');
-                }
-            });
-        });
+        /**
+         * 9. 轻量级提示框
+         */
+        let toastTimer;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.remove('opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
     </script>
 </body>
-
 </html>
